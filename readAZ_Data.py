@@ -1,7 +1,7 @@
 
 from csv import reader
 
-def readElectionData ("Arizona General Election Data for Governor.csv", county, red_cnt, blue_cnt, green_cnt):
+def readElectionData (filename, county, red_cnt, blue_cnt, green_cnt):
     # Open the Excel file with the governor
     AZGovDataFile = open(filename,'r')
 
