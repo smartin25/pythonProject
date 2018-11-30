@@ -75,6 +75,7 @@ def main():
 
     setupData(county, red_cnt, blue_cnt, green_cnt)
     layout = go.Layout(
+        title="Arizona Election Results",
         barmode='stack'
     )
 
