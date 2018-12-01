@@ -6,10 +6,12 @@ import plotly.figure_factory as ff
 # November 2018
 # Final Project
 #
-# AllChropleth.py
+# AllChoropleth.py
 #
-# Use Plotly to create a choropleth map of the differences between the DFL (blue) votes and the R (red) votes
-# for the 2018 governor's race.
+# Use Plotly to create a choropleth map of the differences between the DFL / D (blue) votes and the R (red) votes
+# for the 2018 governor's race for any number of states.
+#
+# Loop through any number of input files, each input file formatted similarly and listed in main()
 
 import pandas as pd
 
@@ -52,30 +54,34 @@ def CreateMap(fips, states, vote_diffs):
 
 
     myMap = ff.create_choropleth(
-        fips=fips, values=vote_diffs,
+        fips=fips,
+        values=vote_diffs,
+        scope = ['USA'],
         # scope=states,
         county_outline={'color': 'rgb(192,192,192)', 'width': 0.5},
-        state_outline={'color': 'rgb(0,0,0)', 'width': 0.5},
+        state_outline={'color': 'rgb(100,100,100)', 'width': 0.5},
         binning_endpoints=[-0.3, -0.2,-0.1, 0, 0.1, 0.2, 0.3],
         legend_title='Margin of Difference per County',
         colorscale=blue_to_red)
 
 
-    myMap['layout']['legend'].update({'x': 0})
-    myMap['layout']['annotations'][0].update({'x': .1, 'xanchor': 'left'})
-    py.plot(myMap, filename='US Choropleth')
+    myMap['layout']['legend'].update({'x': 0})  # put the color legend on the left
+    myMap['layout']['annotations'][0].update({'x': .1, 'xanchor': 'left'}) # put the title above the map
+    py.plot(myMap, filename='US Choropleth')  # plot the map
 
 
-def main():
-    ElectionDataSets = []
-    ElectionDataSets.append(pd.read_csv("../../datasets/mn/minnesotaGovernorByCounty.txt"))
-    ElectionDataSets.append(pd.read_csv("../../datasets/AZ/Arizona General Election Data for Governor.txt"))
-    ElectionDataSets.append(pd.read_csv("../../datasets/CO/ColoradoGovernorByCounty.txt"))
+def main(ElectionDataSets):
 
-    all_Fips, all_States, all_r_votes, all_d_votes, all_o_votes, all_total_votes = parseData( ElectionDataSets)
+
+    all_Fips, all_States, all_r_votes, all_d_votes, all_o_votes, all_total_votes = parseData(ElectionDataSets)
 
     vote_diffs = GetVoteDiffs(all_r_votes, all_d_votes, all_total_votes)
 
     CreateMap(all_Fips, all_States, vote_diffs)
 
-main()
+if __name__ == "__main__":
+    ElectionDataSets = []
+    ElectionDataSets.append(pd.read_csv("../datasets/mn/MinnesotaGovernorByCounty.txt"))
+    ElectionDataSets.append(pd.read_csv("../datasets/az/ArizonaGovernorByCounty.txt"))
+    ElectionDataSets.append(pd.read_csv("../datasets/co/ColoradoGovernorByCounty.txt"))
+    main(ElectionDataSets)

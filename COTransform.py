@@ -40,7 +40,6 @@ def Transform(inF, outF):
         outLine = []
         aLine = theFile.readline()
 
-    print(outLines)
 
     outFile.write('FIPS,STATE,COUNTY,TOTAL_VOTES,R_VOTES,D_VOTES,O_VOTES' + '\n')
     for line in outLines:
@@ -75,5 +74,5 @@ def InitializeCountyFips():
 
 if __name__ == "__main__":
 
-    Transform("../../datasets/co/cgged.csv",
-              "../../datasets/co/ColoradoGovernorByCounty.txt" )
+    Transform("../datasets/co/cgged.csv",
+              "../datasets/co/ColoradoGovernorByCounty.txt" )
